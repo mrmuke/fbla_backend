@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MyQuizListAPI, QuizListAPI, QuizDetailAPI, SaveUsersAnswer, SubmitQuizAPI, UploadQuiz
+from .views import MyQuizListAPI, QuizListAPI, QuizDetailAPI, SaveUsersAnswer, SubmitQuizAPI, UploadQuiz,CreatePlan,GetPlan
 
 
 urlpatterns = [
@@ -9,6 +9,8 @@ urlpatterns = [
     path("saveAnswer", SaveUsersAnswer.as_view()),
     path("<int:id>/submit", SubmitQuizAPI.as_view()),
     path("upload", UploadQuiz.as_view()),
+    path("createPlan", CreatePlan.as_view()),
+    path("plan", GetPlan.as_view()),
 
 
 ]

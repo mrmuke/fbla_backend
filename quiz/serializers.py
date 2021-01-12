@@ -1,4 +1,4 @@
-from quiz.models import Quiz, QuizTaker, Question, Answer, UsersAnswer
+from quiz.models import Quiz, QuizTaker, Question, Answer, UsersAnswer, Goal
 from rest_framework import serializers
 
 
@@ -57,7 +57,7 @@ class MyQuizListSerializer(serializers.ModelSerializer):
 			if quiztaker.completed == False:
 				questions_answered = UsersAnswer.objects.filter(quiz_taker=quiztaker, answer__isnull=False).count()
 				total_questions = obj.question_set.all().count()
-				return int(questions_answered / total_questions)
+				return int(100*questions_answered / total_questions)
 			return None
 		except QuizTaker.DoesNotExist:
 			return None
@@ -99,20 +99,13 @@ class QuizDetailSerializer(serializers.ModelSerializer):
 		except QuizTaker.DoesNotExist:
 			return None
 
-
-class QuizResultSerializer(serializers.ModelSerializer):
-	quiztaker_set = serializers.SerializerMethodField()
-	question_set = QuestionSerializer(many=True)
-
+class BasicQuizSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Quiz
+		fields="__all__"
+
+class GoalSerializer(serializers.ModelSerializer):
+	quiz=BasicQuizSerializer()
+	class Meta:
+		model=Goal
 		fields = "__all__"
-
-	def get_quiztaker_set(self, obj):
-		try:
-			quiztaker = QuizTaker.objects.get(user=self.context['request'].user, quiz=obj)
-			serializer = QuizTakerSerializer(quiztaker)
-			return serializer.data
-
-		except QuizTaker.DoesNotExist:
-			return None 

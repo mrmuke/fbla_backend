@@ -5,7 +5,7 @@ from django.db.models.signals import pre_save
 
 
 class Quiz(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100, unique=True)
 	description = models.CharField(max_length=70)
 
 	def __str__(self):
@@ -14,9 +14,9 @@ class Quiz(models.Model):
 
 class Question(models.Model):
 	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-	label = models.CharField(max_length=100)
+	label = models.CharField(max_length=300)
 	order = models.IntegerField(default=0)
-
+	question_type = models.CharField(max_length=100,default="multiple")
 	def __str__(self):
 		return self.label
 
@@ -38,12 +38,17 @@ class QuizTaker(models.Model):
 	def __str__(self):
 		return self.user.email
 
+class Goal(models.Model):
+	date=models.DateField()
+	quiz = models.ForeignKey(Quiz,on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	
 
 class UsersAnswer(models.Model):
 	quiz_taker = models.ForeignKey(QuizTaker, on_delete=models.CASCADE)
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
-	answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True)
-
+	answer = models.ManyToManyField(Answer, null=True)
+	message = models.CharField(max_length=200, default="")
 	def __str__(self):
 		return self.question.label
 
