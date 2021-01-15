@@ -162,6 +162,7 @@ class UploadQuiz(generics.GenericAPIView):
 		permissions.IsAuthenticated
 	]
 
+
 	def post(self, request, *args, **kwargs):
 		file = request.data['myFile']
 		file_name = default_storage.save(file.name, file)
@@ -189,7 +190,7 @@ class UploadQuiz(generics.GenericAPIView):
 					label=elem[elem.index(char+")"):elem.index(letters[index+1]+")")]
 				Answer.objects.create(question=q,label=label,is_correct=blocks[question_num+i].find(char)>-1)
 
-		return Response({"text":data})
+		return Response(QuizListSerializer(quiz).data)
 def slicer(my_str,sub):
    index=my_str.find(sub)
    if index !=-1 :
