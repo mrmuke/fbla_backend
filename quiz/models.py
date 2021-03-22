@@ -47,7 +47,7 @@ class Goal(models.Model):
 class UsersAnswer(models.Model):
 	quiz_taker = models.ForeignKey(QuizTaker, on_delete=models.CASCADE)
 	question = models.ForeignKey(Question, on_delete=models.CASCADE)
-	answer = models.ManyToManyField(Answer, null=True)
+	answer = models.ManyToManyField(Answer)
 	message = models.CharField(max_length=200, default="")
 	def __str__(self):
 		return self.question.label

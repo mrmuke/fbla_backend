@@ -6,6 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+bs4 = "*"
+numpy = "*"
+django-heroku = "*"
+python-dotenv = "*"
+dj-database-url = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.7"

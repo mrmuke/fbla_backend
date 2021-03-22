@@ -12,8 +12,46 @@ import logging
 import re
 from tika import parser  
 from django.core.files.storage import default_storage
+import numpy as np
+from django.views import View
+import os
+from rest_framework.exceptions import NotFound
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+
+def levenshtein(s, t):
+
+    # Initialize matrix of zeros
+    rows = len(s)+1
+    cols = len(t)+1
+    distance = np.zeros((rows,cols),dtype = int)
+
+    # Populate matrix of zeros with the indeces of each character of both strings
+    for i in range(1, rows):
+        for k in range(1,cols):
+            distance[i][0] = i
+            distance[0][k] = k
+
+    # Iterate over the matrix to compute the cost of deletions,insertions and/or substitutions    
+    for col in range(1, cols):
+        for row in range(1, rows):
+            if s[row-1] == t[col-1]:
+                cost = 0 # If the characters are the same in the two strings in a given position [i,j] then the cost is 0
+            else:
+                # In order to align the results with those of the Python Levenshtein package, if we choose to calculate the ratio
+                # the cost of a substitution is 2. If we calculate just distance, then the cost of a substitution is 1.
+                if ratio_calc == True:
+                    cost = 2
+                else:
+                    cost = 1
+            distance[row][col] = min(distance[row-1][col] + 1,      # Cost of deletions
+                                 distance[row][col-1] + 1,          # Cost of insertions
+                                 distance[row-1][col-1] + cost)     # Cost of substitutions
+    # Computation of the Levenshtein Distance Ratio
+    Ratio = ((len(s)+len(t)) - distance[row][col]) / (len(s)+len(t))
+    return Ratio
+
 class MyQuizListAPI(generics.ListAPIView):
 	permission_classes = [
 		permissions.IsAuthenticated
@@ -93,6 +131,7 @@ class SaveUsersAnswer(generics.UpdateAPIView):
 		
 		quiztaker = get_object_or_404(QuizTaker, id=quiztaker_id)
 		question = get_object_or_404(Question, id=question_id)
+		answer = None
 		answer = Answer.objects.filter(id__in=answer_id)
 
 		if quiztaker.completed:
@@ -144,7 +183,7 @@ class SubmitQuizAPI(generics.GenericAPIView):
 					correct_answers += 1
 					users_answer.message='Correct. Your answer was "'+' '.join([str(x.label)+"," for x in answer])+'"' 
 				else:
-					if users_answer.answer:
+					if len(users_answer.answer.all())>0:
 						users_answer.message='Incorrect. The correct answer was "'+' '.join([str(x.label)+"," for x in answer])+'" while you answered "'+' '.join([str(x.label)+"," for x in users_answer.answer.all()])+'"'
 					else:
 						users_answer.message='Unanswered'
@@ -228,3 +267,28 @@ class GetPlan(generics.RetrieveAPIView):
 		goals = Goal.objects.filter(user=request.user)
 		serializer = GoalSerializer(goals, many=True)
 		return Response(serializer.data)
+
+class RetakeQuiz(generics.GenericAPIView):
+	permission_classes = [
+		permissions.IsAuthenticated
+	]
+	serializer_class = QuizDetailSerializer
+
+	def post(self, request, *args, **kwargs):
+		taker = QuizTaker.objects.get(user=request.user,quiz=kwargs['id'])
+		UsersAnswer.objects.filter(quiz_taker=taker).delete()
+		taker.completed=False
+		taker.save()
+		serializer = self.get_serializer(taker.quiz)
+		return Response({'quiz': serializer.data})
+
+class Assets(View):
+
+    def get(self, _request, filename):
+        path = os.path.join(os.path.dirname(__file__), 'static', filename)
+
+        if os.path.isfile(path):
+            with open(path, 'rb') as file:
+                return Response(file.read(), content_type='application/javascript')
+        else:
+            return NotFound(detail="Error 404, page not found", code=404)
