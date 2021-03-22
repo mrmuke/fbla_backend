@@ -11,7 +11,7 @@ import Navbar from "./components/Navbar";
 import axios from 'axios'
 import QuizList from "./pages/QuizList";
 import TakeQuiz from "./pages/TakeQuiz";
-import axios from 'axios';
+
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
