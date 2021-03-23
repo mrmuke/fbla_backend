@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn backend.wsgi --log-file -
+web: gunicorn fbla_quiz_backend.wsgi --log-file -
