@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/users/', include('users.urls') ),
     path('api/quiz/', include('quiz.urls') ),
     
+    
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+[re_path(r'^.*$', index)]
 
