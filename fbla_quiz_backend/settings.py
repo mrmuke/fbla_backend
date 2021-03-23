@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'knox',
     'corsheaders',
     'users.apps.UsersConfig',
-    'quiz.apps.QuizConfig'
+    'quiz.apps.QuizConfig',
+     'whitenoise.runserver_nostatic',
     
 ]
 
@@ -89,17 +90,6 @@ WSGI_APPLICATION = 'fbla_quiz_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'djongo',
-
-#        "CLIENT": {
-#           "name": "fbla_quiz",
-#           "host": "mongodb+srv://mrmuke:mikeman2005@cluster0.vx86q.mongodb.net/fbla_quiz?retryWrites=true&w=majority",
-#           "username": "mrmuke",
-#           "password": "mikeman2005",        }, 
-#    }
-#}
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 #DATABASES = {
@@ -151,17 +141,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# Place static in the same location as webpack build files
-STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
-STATICFILES_DIRS = []
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build', 'static'), 
+    os.path.join(BASE_DIR, 'build'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-CORS_ORIGIN_ALLOW_ALL = False # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
-#    'http://localhost:3000','https://fbla-prep.herokuapp.com'
+    'http://localhost:3000'
 ]
 
 django_heroku.settings(locals())

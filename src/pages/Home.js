@@ -26,7 +26,7 @@ export default function Home() {
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
                             <div class="features-small-item">
                                 <div class="icon">
-                                    <i><img src="/checklist.png" style={{width:'50px'}} alt=""/></i>
+                                    <i><img src="/static/checklist.png" style={{width:'50px'}} alt=""/></i>
                                 </div>
                                 <h5 class="features-title">Plan Your Studying</h5>
                                 <p>Ace the test by creating a study plan, and we will provide dates for you to take our practice quizzes</p>
@@ -36,7 +36,7 @@ export default function Home() {
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.4s">
                             <div class="features-small-item">
                                 <div class="icon">
-                                    <i><img src="/quiz.png" style={{width:'50px'}} alt=""/></i>
+                                    <i><img src="/static/quiz.png" style={{width:'50px'}} alt=""/></i>
                                 </div>
                                 <h5 class="features-title">Take Quizzes</h5>
                                 <p>Take our already existing quizzes or import your own to hone your FBLA skills and prep for objective tests</p>
@@ -46,7 +46,7 @@ export default function Home() {
                         <div class="col-lg-4 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.6s">
                             <div class="features-small-item">
                                 <div class="icon">
-                                    <i><img src="/analyze.png" style={{width:'50px'}} alt=""/></i>
+                                    <i><img src="/static/analyze.png" style={{width:'50px'}} alt=""/></i>
                                 </div>
                                 <h5 class="features-title">Analyze Your Results</h5>
                                 <p>View your quiz efficiency and other analytics on your dashboard and also keep track of your results after you take a test</p>

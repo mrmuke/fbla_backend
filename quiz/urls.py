@@ -12,6 +12,7 @@ urlpatterns = [
     path("createPlan", CreatePlan.as_view()),
     path("plan", GetPlan.as_view()),
     path("retake/<int:id>", RetakeQuiz.as_view()),
+    
 
 
 ]
