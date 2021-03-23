@@ -63,7 +63,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
      'corsheaders.middleware.CorsMiddleware',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'fbla_quiz_backend.urls'
 
@@ -152,17 +151,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# Place static in the same location as webpack build files
+STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'static')
+STATICFILES_DIRS = []
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
-]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 CORS_ORIGIN_ALLOW_ALL = False # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000','https://fbla-prep.herokuapp.com'
-] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
+#    'http://localhost:3000','https://fbla-prep.herokuapp.com'
+]
 
 django_heroku.settings(locals())
 options = DATABASES['default'].get('OPTIONS', {})
