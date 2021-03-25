@@ -14,9 +14,9 @@ from pathlib import Path
 import django_heroku
 import dotenv
 import dj_database_url
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
@@ -92,12 +92,6 @@ WSGI_APPLICATION = 'fbla_quiz_backend.wsgi.application'
 
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
 
 
 
@@ -160,3 +154,7 @@ CORS_ORIGIN_WHITELIST = [
 django_heroku.settings(locals())
 options = DATABASES['default'].get('OPTIONS', {})
 options.pop('sslmode', None)
+REST_KNOX = {
+  'TOKEN_TTL': timedelta(days=90),
+}
+#fix font, database, and looks
