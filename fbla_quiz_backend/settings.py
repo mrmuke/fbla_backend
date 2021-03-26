@@ -15,6 +15,7 @@ import django_heroku
 import dotenv
 import dj_database_url
 from datetime import timedelta
+import requests
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -90,8 +91,14 @@ WSGI_APPLICATION = 'fbla_quiz_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {}
+    
+DATABASES = {
+
+}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
+DATABASES['default']['ENGINE']='django.db.backends.sqlite3'
+DATABASES['default']['NAME'] = 'db.sqlite3'
 
 
 

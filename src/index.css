@@ -22,21 +22,26 @@ code {
  
 }
   .quiz-item {
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid #eee;
       transition: 0.2s;
       padding:0.75rem;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-top:0.5rem
   }
 .quiz-item:hover{
   cursor: pointer;
 }
+@media screen and (max-width:700px){
+  .quiz-item{
+    flex-direction: column;
+  }
+}
 
       
   
 .question-wrapper {
-  padding-top: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -310,4 +315,9 @@ td.text-right {
   border-radius: 8px;
   font-size: 20px;
   font-weight: bold;
+}
+@media screen and (max-width:700px){
+  .create-quiz{
+    flex-direction: column;
+  }
 }

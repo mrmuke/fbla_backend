@@ -78,7 +78,7 @@ export default function Plan() {
                             <h2 style={{ marginBottom: '10px' }}>Set up new goals today!</h2>
     Based on your test date, we'll put together a practice plan to ensure you're ready.<br></br>
                             <button style={{ color: '#1586CA', backgroundColor: 'white', padding: '10px', borderRadius: '10px', marginTop: '10px' }} onClick={() => setPlan(true)}>Plan Your Studying</button></div>
-                    </> : <div style={{ color: 'white', display: 'flex', flexDirection: 'column' }}><strong style={{ margin: '10px' }}>Enter testing date...</strong><input type="date" onChange={e => setTestDate(e.target.value)} /><strong style={{ margin: '10px' }}>Testing Category</strong><select value={category} onChange={e => setCategory(e.target.value)}>
+                    </> : <div style={{ color: 'white', display: 'flex', flexDirection: 'column' }}><strong style={{ margin: '10px' }}>Test Date</strong><input type="date" onChange={e => setTestDate(e.target.value)} /><strong style={{ margin: '10px' }}>Test Category</strong><select style={{padding:'10px'}} value={category} onChange={e => setCategory(e.target.value)}>
                         <option value="Journalism">Journalism</option>
                         <option value="Securities and Investments">Securities and Investments</option>
                         <option value="Advertising">Advertising</option>

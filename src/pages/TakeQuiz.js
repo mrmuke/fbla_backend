@@ -152,7 +152,7 @@ export default function TakeQuiz(props) {
       </div>)
   }
 
-  return <div style={{display:'flex',justifyContent:'center'}}>
+  return <div style={{display:'flex',justifyContent:'center',height:'70vh',alignItems:'center',background:'#1586CA'}}>
     <Modal
       isOpen={confirmModal}>
       <div className="buttons" style={{ diplay: 'flex', flexDirection: 'column',justifyContent:'center', marginTop:'10%'}}>
@@ -161,8 +161,8 @@ export default function TakeQuiz(props) {
         <button onClick={submitQuiz}>Submit</button><button onClick={() => setConfirmModal(false)}>Cancel</button>
       </div>
     </Modal>
-
-  <div style={{maxWidth:'400px'}}>
+  
+  <div style={{maxWidth:'550px',background:'white',borderRadius:'10px',padding:'10px'}}>
     <div className="question-wrapper">
       <div className="question-number">
         QUESTION  {index + 1} OF {quiz.question_set.length}
@@ -184,7 +184,7 @@ export default function TakeQuiz(props) {
 function Question({ question, selectAnswer, selectedAnswer }) {
   return (
     <div style={{ padding: '15px' }}>
-      <h5 style={{ fontWeight: 'bold' }}>{question.label}</h5>
+      <h5 >{question.label}</h5>
       <hr />
       {question.question_type === "multiple" ? question['answer_set'].map((answer, index) => (
         <Answer key={answer.id} answer={answer} index={index} selectAnswer={selectAnswer} selectedAnswer={selectedAnswer} />
@@ -198,9 +198,7 @@ function Question({ question, selectAnswer, selectedAnswer }) {
             ))}
 
           </select> :
-          question.question_type="text"?
-          <input placeholder="Term:" value={selectedAnswer} onChange={e=>selectAnswer(e.target.value)}/>
-          :
+
           <div>
             {question['answer_set'].map(c => (
               <Checkbox selectedAnswer={selectedAnswer} selectAnswer={selectAnswer} key={c.id} answer={c} />

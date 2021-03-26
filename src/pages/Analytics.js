@@ -13,7 +13,7 @@ import QuizService from '../services/QuizService';
 const quizService = new QuizService()
 export default class AnalyticsPage extends Component {
 
-
+//SMART FEEDBACK AND IMAGES AND UI - take quiz and all quizzes page
   render() {
     const chartColors = {
       red: 'rgb(233, 30, 99)',
@@ -78,7 +78,7 @@ export default class AnalyticsPage extends Component {
       <div style={{marginTop:'10px'}}>
 
         
-
+        
         <Row>
           <Col md={8} sm={12}>
             <Card>

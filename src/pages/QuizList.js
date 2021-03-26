@@ -36,7 +36,7 @@ quizService.uploadQuiz(formData).then(result=>{
 })
     }
 
-    return <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}><div className="quizzes-container">
+    return <div style={{display:'flex',justifyContent:'center',alignItems:'center', background:'#1586CA',padding:'20px'}}><div className="quizzes-container">
         {importQuiz?
         <div   className="create-quiz" style={{justifyContent:'space-between'}}>
             <div>

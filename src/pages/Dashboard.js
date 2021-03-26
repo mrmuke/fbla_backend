@@ -23,7 +23,18 @@ export default function Dashboard(){
         <div style={{padding:'22px'}}>
         {!show?
         <QuizCard quizzes={mine}/>:<Analytics quizzes={mine}/>}
-        <div style={{display:'flex',justifyContent:'center'}}>
+        <div style={{display:'flex',alignItems:'center', flexDirection:'column', marginTop:'10px'}}>
+
+          <Card>
+            <CardHeader>Smart Feedback</CardHeader>
+            <CardBody>
+              - Stop rushing through the quizzes..<br/>
+              - Complete your practice quizzes on time<br/>
+              - Stop getting tempted in MC - Review vocab<br/>
+              - Good work! You're improving..
+            </CardBody>
+          </Card>
+
         <button style={{color:'white',backgroundColor:'#1586CA', padding:'20px', borderRadius:'10px', marginTop:'10px'}} onClick={()=>setShow(!show)}>{show?"Back to My Quizzes":"Show Progress and Quiz Analytics"}</button></div>
 
        
