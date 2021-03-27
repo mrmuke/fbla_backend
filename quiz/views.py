@@ -211,6 +211,7 @@ class UploadQuiz(generics.GenericAPIView):
 		data=re.sub('[^a-zA-Z0-9-_*. ?:()!]', '', parsed_pdf['content'])
 		logger.error(data)
 		quiz = Quiz.objects.create(name=data[slicer(data,"docx"):data.index("1)")]+"- Sample")
+		quiz.save()
 		data=data[data.index("1)"):]
 
 		blocks=re.split(r'[ ](?=[0-9]+\))', data)
@@ -222,6 +223,7 @@ class UploadQuiz(generics.GenericAPIView):
 			question = elem[:elem.index("A)")]
 			
 			q=Question.objects.create(label=question,quiz=quiz,order=int(question[:question.index(")")]))
+			q.save()
 			letters = ["A","B","C","D"]
 			for index,char in enumerate(letters):
 				label=""
