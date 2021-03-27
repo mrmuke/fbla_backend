@@ -152,7 +152,7 @@ export default function TakeQuiz(props) {
       </div>)
   }
 
-  return <div style={{display:'flex',justifyContent:'center',height:'70vh',alignItems:'center',background:'#1586CA'}}>
+  return <div style={{display:'flex',justifyContent:'center',height:'100vh',alignItems:'center',background:'#1586CA'}}>
     <Modal
       isOpen={confirmModal}>
       <div className="buttons" style={{ diplay: 'flex', flexDirection: 'column',justifyContent:'center', marginTop:'10%'}}>

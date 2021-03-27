@@ -36,7 +36,7 @@ quizService.uploadQuiz(formData).then(result=>{
 })
     }
 
-    return <div style={{display:'flex',justifyContent:'center',alignItems:'center', background:'#1586CA',padding:'20px'}}><div className="quizzes-container">
+    return <div style={{display:'flex',justifyContent:'center',alignItems:'center', background:'#1586CA',minHeight:'100vh',padding:'20px'}}><div className="quizzes-container">
         {importQuiz?
         <div   className="create-quiz" style={{justifyContent:'space-between'}}>
             <div>
@@ -46,7 +46,7 @@ quizService.uploadQuiz(formData).then(result=>{
             Submit! 
         </button></div>
     :<>
-         <div className="create-quiz"><button onClick={()=>setImportQuiz(true)}>Import Your Own</button></div></>}
+         <div className="create-quiz"><button onClick={()=>setImportQuiz(true)}>Import Sample</button></div></>}
          <div style={{textAlign:'center'}}>or</div>
    
    {/*  <input accept="application/pdf" type="file" onChange={selectQuizFile} /> 

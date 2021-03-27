@@ -15,7 +15,7 @@ export default function Navbar(){
   
     return(
       <NavBar expand="lg">
-            <NavBar.Brand href="/">FBLA QUIZ</NavBar.Brand>
+            <NavBar.Brand href="/">FBLA SMART</NavBar.Brand>
             <NavBar.Toggle aria-controls="basic-navbar-nav" />
             <NavBar.Collapse id="basic-navbar-nav">
                 

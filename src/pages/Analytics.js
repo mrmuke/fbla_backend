@@ -96,7 +96,7 @@ export default class AnalyticsPage extends Component {
             </Card>
           </Col>
           <Col md={4} sm={12}>
-            <Card>
+            <Card  style={{height:'100%'}}>
               <CardHeader>Mastery in Different Topics</CardHeader>
               <CardBody>
                 <Doughnut

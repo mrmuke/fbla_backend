@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Feedback from './Feedback'
 import QuizService from '../services/QuizService'
 const quizService = new QuizService()
 export default function Plan() {
@@ -36,19 +37,15 @@ export default function Plan() {
     }
     
     return (
-        //do analyutics
-        //follow guidelines
-        //dropdown, true or false, multiple choice, multiple answers, fill in the blank
-        //401 error
-        //analytics dashboard and take quizzes apge
-        //add code to extension
+
         <div className="goal-header"  >
             {!goals?
             <div style={{color:'white'}}>Loading...</div>
             :
             goals.length > 0 ?
+            <div className="feedback-container">
                 <div style={{ color: 'white', display: 'flex', flexDirection: 'column' }}>
-                    <h2 style={{ textDecorationLine: 'underline',marginBottom:'10px' }}>Reach Nationals</h2>
+                    <h2 style={{ textDecorationLine: 'underline',marginBottom:'10px',padding:'20px' }}>Reach Nationals</h2>
                     {goals.map((goal, index) => (
                         <div key={goal.id}>
                             
@@ -69,7 +66,7 @@ export default function Plan() {
                             <p className="step-text">Ready for your <b>Objective Test</b></p>
 
                         </div>
-                    </div> :
+                    </div><Feedback/></div> :
 
                 !plan ?
                     <>
