@@ -35,13 +35,14 @@ function App() {
       <Router>
         <Navbar/>
       <Switch>
-        
+      <Route exact path="/" component={Home}/>
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/signup" component={Register} />
       <PrivateRoute exact path="/dashboard" component={Dashboard}/>
       <PrivateRoute exact path="/quizzes" component={QuizList}/>
       <PrivateRoute exact path="/:id" component={TakeQuiz}/>
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={Register} />
-      <Route path="/" component={Home}/>
+      
+      
                 
 
             </Switch></Router>
