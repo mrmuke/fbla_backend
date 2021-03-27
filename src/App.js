@@ -38,7 +38,7 @@ function App() {
         
       <PrivateRoute exact path="/dashboard" component={Dashboard}/>
       <PrivateRoute exact path="/quizzes" component={QuizList}/>
-      <PrivateRoute exact path="/quizzes/:id" component={TakeQuiz}/>
+      <PrivateRoute exact path="/:id" component={TakeQuiz}/>
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Register} />
       <Route path="/" component={Home}/>

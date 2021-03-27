@@ -51,7 +51,7 @@ export default function Plan() {
                             
                         <div className="step">
                             <h1 className={new Date()>new Date(goal.date)?"filled-step-header":"step-header"}>{index + 1}</h1>
-                            <p className="step-text">{goal.date} : <a href={`/quizzes/${goal.quiz.id}`}><strong>{goal.quiz.name}</strong></a> {datesAreOnSameDay(new Date(),new Date(goal.date))&&<> &#x2190; You are here</>}</p>
+                            <p className="step-text">{goal.date} : <a href={`/${goal.quiz.id}`}><strong>{goal.quiz.name}</strong></a> {datesAreOnSameDay(new Date(),new Date(goal.date))&&<> &#x2190; You are here</>}</p>
 
                         </div>
                         <div className="step border-left">

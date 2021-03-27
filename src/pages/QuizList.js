@@ -63,7 +63,7 @@ quizService.uploadQuiz(formData).then(result=>{
 }
 function Quiz({quiz}){
     return(
-    <Link  to={`/quizzes/${quiz.id}`}>
+    <Link  to={`/${quiz.id}`}>
         <div className="quiz-item">
         <div>
             <h2>{quiz.name}</h2>
