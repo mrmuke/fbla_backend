@@ -8,7 +8,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+select{
+  max-width:100%;
+}
 
 
 
@@ -20,6 +22,8 @@ code {
   border-radius: 20px;
 
  
+}ol{
+  margin-bottom:0 !important;
 }
   .quiz-item {
       border-bottom: 1px solid #eee;
@@ -41,15 +45,7 @@ code {
 
       
   
-.question-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.question-number {
-    color: #ccc;
-    margin-left: 15px;
-}
+
 
 .buttons {
   text-align: center;
@@ -65,26 +61,6 @@ code {
   margin:10px;
   cursor: pointer;
 }
-.buttons button:hover{
-
-    opacity: 0.85;
-
-}
-
-.answer {
-  padding: 10px 5px;
-  transition: 0.2s;
-}
-.answer:hover{
-  cursor: pointer;
-  background-color: #eee;
-
-}
-  .selected-letter {
-      background-color: #1586CA;
-      padding:15px;
-      color:white;
-  }
 
   .inline-block {
     display: inline-block!important;
@@ -322,3 +298,84 @@ td.text-right {
   }
 }
 
+
+
+
+
+/* container */
+.leaderboard-container {
+	width: 300px;
+	height: auto;
+	border-radius: 10px;
+	background-color: white;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+	z-index: 1;
+	overflow: hidden;
+  margin-bottom:20px
+
+}
+
+/* leaderboard */
+.leaderboard {
+	background: linear-gradient(to bottom, #3a404d, #181c26);
+}
+
+/* head */
+.leaderboard .head {
+	padding: 20px 16px;
+	color: snow;
+	font-size: 20px;
+	text-align: center;
+}
+.leaderboard .head h1 {
+	display: inline-block;
+	margin-left: 4px;
+}
+
+/* body */
+.leaderboard .body {
+	color: snow;
+	font-size: 16px;
+}
+.leaderboard ol {
+	counter-reset: number; /* 定義和初始化計數器 */
+}
+.leaderboard li {
+	padding: 16px;
+	display: flex;
+}
+.leaderboard li mark {
+	flex-grow: 1;
+	color: snow;
+	background-color: transparent;
+}
+.leaderboard li:before {
+	counter-increment: number; /* 遞增計數器 */
+	content: counter(number) "."; /* 顯示計數器 */
+	margin-right: 4px;
+}
+.leaderboard li:nth-child(1) {
+	background: #1c8ed4;
+}
+.leaderboard li:nth-child(2) {
+	background: #1586CA;
+}
+.leaderboard li:nth-child(3) {
+	background: #1d81c0;
+}
+.leaderboard li:nth-child(4) {
+	background:#1979b4;
+}
+.leaderboard li:nth-child(5) {
+	background: #166ea5;
+}
+.leaderboard li:nth-child(5) {
+	background: #12689e;
+}
+
+@media screen and (max-width:500px) {
+  .top-score-container{
+    flex-direction: column;
+  }
+}

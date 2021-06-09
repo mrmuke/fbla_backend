@@ -16,6 +16,8 @@ import numpy as np
 
 from django.views.generic import TemplateView
 from django.views.decorators.cache import never_cache
+from time import sleep
+
 index = never_cache(TemplateView.as_view(template_name='index.html'))
 
 
@@ -195,7 +197,6 @@ class SubmitQuizAPI(generics.GenericAPIView):
 				logger.error(users_answer.question)
 		quiztaker.score = int(correct_answers / quiztaker.quiz.question_set.count() * 100)
 		quiztaker.save()
-
 		return Response(self.get_serializer(quiz).data)
 
 class UploadQuiz(generics.GenericAPIView):

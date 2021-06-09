@@ -74,10 +74,12 @@ class MyQuizListSerializer(serializers.ModelSerializer):
 		except QuizTaker.DoesNotExist:
 			return None
 
+class UserSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=100)
 
 class QuizTakerSerializer(serializers.ModelSerializer):
 	usersanswer_set = UsersAnswerSerializer(many=True)
-
+	user=UserSerializer() 
 	class Meta:
 		model = QuizTaker
 		fields = "__all__"
@@ -85,11 +87,20 @@ class QuizTakerSerializer(serializers.ModelSerializer):
 
 class QuizDetailSerializer(serializers.ModelSerializer):
 	quiztakers_set = serializers.SerializerMethodField()
-	question_set = QuestionSerializer(many=True)
+	all_quiz_takers = serializers.SerializerMethodField()
 
+	question_set = QuestionSerializer(many=True)
+	
 	class Meta:
 		model = Quiz
 		fields = "__all__"
+	def get_all_quiz_takers(self,obj):
+		try:
+			quiz_takers= QuizTaker.objects.filter(quiz=obj).order_by('-score')
+			serializer = QuizTakerSerializer(quiz_takers,many=True)
+			return serializer.data
+		except QuizTaker.DoesNotExist:
+			return None
 
 	def get_quiztakers_set(self, obj):
 		try:

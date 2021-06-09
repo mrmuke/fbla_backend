@@ -12,6 +12,8 @@ export default function TakeQuiz(props) {
   const [score, setScore] = useState(-1)
   const [messages, setMessages] = useState([])
   const [confirmModal, setConfirmModal] = useState(false)
+  const [leaderboard,setLeaderboard] = useState([])
+  const [percentile,setPercentile]=useState(null)
   useEffect(() => {
     quizService.getQuiz(id)
       .then(result => {
@@ -24,10 +26,19 @@ export default function TakeQuiz(props) {
       setMessages(result.data.quiz.quiztakers_set.usersanswer_set.map(answer => answer.message))
 
       setScore(result.data.quiz.quiztakers_set.score)
+      setLeaderboard(result.data.quiz.all_quiz_takers)
+      setPercentile(getPercentile(result.data.quiz.all_quiz_takers.map(c=>c.score),result.data.quiz.quiztakers_set.score))
       //quizService.getAnswers(result.data.quiz.id)
     }
     initAnswers(result.data.quiz)
   }
+  const getPercentile = (arr, val) =>
+  (100 *
+    arr.reduce(
+      (acc, v) => acc + (v < val ? 1 : 0) + (v === val ? 0.5 : 0),
+      0
+    )) /
+  arr.length;
 
   function initAnswers(quiz) {
     const usersAnswers = quiz.quiztakers_set.usersanswer_set;
@@ -71,6 +82,9 @@ export default function TakeQuiz(props) {
     quizService.submitQuiz(body, id).then(result => {
       setScore(result.data.quiztakers_set.score)
       setMessages(result.data.quiztakers_set.usersanswer_set.map(answer => answer.message))
+
+      setLeaderboard(result.data.all_quiz_takers)
+      setPercentile(getPercentile(result.data.all_quiz_takers.map(c=>c.score),result.data.quiztakers_set.score))
     })
   }
   function retakeQuiz(){
@@ -124,11 +138,20 @@ export default function TakeQuiz(props) {
   }
   if (score != -1) {
     return (<div><div className="table-title">
-     
+              <h2 style={{border:'none',
+    background: '#1586CA',
+    padding: '12px',
+    color: 'white',
+    borderRadius: '10px',
+    margin:'20px',
+    marginRight:'5rem',
+    marginLeft:'5rem'
+}}>{quiz.name} </h2>
+
+     <div className="top-score-container" style={{display:'flex',alignItems:'center'}}>
       <div style={{ padding: '15px' }}>
-        <Score score={score} /></div>
-        <h2>{quiz.name} </h2>
-        <button onClick={retakeQuiz} className="take-quiz">Retake</button>
+        <Score score={score} /><p>{percentile}th percentile</p>        <button onClick={retakeQuiz} className="take-quiz">Retake</button>
+</div><Leaderboard leaderboard={leaderboard}/></div>
     </div>
       <table className="table-fill">
         <thead>
@@ -161,8 +184,26 @@ export default function TakeQuiz(props) {
         <button onClick={submitQuiz}>Submit</button><button onClick={() => setConfirmModal(false)}>Cancel</button>
       </div>
     </Modal>
-  
-  <div style={{maxWidth:'550px',background:'white',borderRadius:'10px',padding:'10px'}}>
+  <div class="container mt-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-9 col-lg-9">
+            <div class="border">
+                <div class="question bg-white p-3 border-bottom">
+                    <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                        <h4>MCQ Quiz</h4><span>QUESTION  {index + 1} OF {quiz.question_set.length}</span>
+                    </div>
+                </div>
+                <div class="question bg-white p-3 border-bottom">
+                <Question selectedAnswer={answers[index]} question={quiz['question_set'][index]} selectAnswer={selectAnswer} />
+
+                   
+                </div>
+                <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white"><button class="btn btn-primary d-flex align-items-center" type="button" onClick={previous}><i class="fa fa-angle-left mt-1 mr-1" ></i>&nbsp;Previous</button><button onClick={next} class="btn btn-primary  align-items-center" type="button">{index == quiz.question_set.length - 1 ? 'Submit' : 'Next'}<i class="fa fa-angle-right ml-2"></i></button></div>
+            </div>
+        </div>
+    </div>
+</div>
+  {/* <div style={{maxWidth:'550px',background:'white',borderRadius:'10px',padding:'10px'}}>
     <div className="question-wrapper">
       <div className="question-number">
         QUESTION  {index + 1} OF {quiz.question_set.length}
@@ -179,13 +220,15 @@ export default function TakeQuiz(props) {
       <button onClick={next}> {index == quiz.question_set.length - 1 ? 'Submit' : 'Next'}
       </button>
     </div>
-  </div></div>
+  </div> */}</div>
 }
 function Question({ question, selectAnswer, selectedAnswer }) {
   return (
-    <div style={{ padding: '15px' }}>
-      <h5 >{question.label}</h5>
-      <hr />
+    <>
+    <div class="d-flex flex-row align-items-center question-title">
+                        <h3 class="text-danger">Q.</h3>
+                        <h5 class="mt-1 ml-2">{question.label}</h5>
+                    </div>  
       {question.question_type === "multiple" ? question['answer_set'].map((answer, index) => (
         <Answer key={answer.id} answer={answer} index={index} selectAnswer={selectAnswer} selectedAnswer={selectedAnswer} />
       )) :
@@ -204,7 +247,7 @@ function Question({ question, selectAnswer, selectedAnswer }) {
               <Checkbox selectedAnswer={selectedAnswer} selectAnswer={selectAnswer} key={c.id} answer={c} />
 
             ))}     </div>}
-    </div>
+    </>
   )
 }
 function Checkbox({ answer, selectAnswer, selectedAnswer }) {
@@ -228,24 +271,52 @@ function Checkbox({ answer, selectAnswer, selectedAnswer }) {
        setChecked(false)
     } 
   }
-  return <div><input checked={checked} type="checkbox" onChange={e => changeAnswer(e)} value={answer.id} />{answer.label}</div>
+  return <div><input class="mr-2" checked={checked} type="checkbox" onChange={e => changeAnswer(e)} value={answer.id} />{answer.label}</div>
 }
 function Answer({ answer, selectAnswer, selectedAnswer }) {
-  return <div className="answer" onClick={() => selectAnswer([answer.id])} >
-    <div className={selectedAnswer == answer.id ? "selected-letter" : ""}>{answer.label}</div>
-  </div>
+  return <div class="ans ml-2">
+  <label class="radio"> <input onChange={(event)=>{if(event.currentTarget.checked){selectAnswer([answer.id])}}} checked={selectedAnswer == answer.id} type="radio"/> <span>{answer.label}</span>
+  </label>
+</div>
 }
 function Score({ score }) {
   if (score <= 60) {
-    return <div><h1 style={{ fontSize: '100px' }}>&#128546;{score}%</h1><h2 style={{ color: 'red', textDecorationLine: 'underline' }}>Uh oh. Better luck next time.</h2></div>
+    return <div><h1 style={{ fontSize: '100px' }}>&#128546;{score}%</h1><h2 style={{ color: 'red', textDecorationLine: 'underline',border:'none' }}>Uh oh. Better luck next time.</h2></div>
   }
   else if (score <= 80) {
-    return <div><h1 style={{ fontSize: '100px' }}>&#128512;{score}%</h1><h2 style={{ color: 'orange', textDecorationLine: 'underline' }}>
+    return <div><h1 style={{ fontSize: '100px' }}>&#128512;{score}%</h1><h2 style={{ color: 'orange', textDecorationLine: 'underline',border:'none' }}>
       You can do it! Keep trying!</h2></div>
   }
   else {
-    return <div><h1 style={{ fontSize: '100px' }}>&#x1F61C;{score}%</h1><h2 style={{ color: 'green', textDecorationLine: 'underline' }}>
+    return <div><h1 style={{ fontSize: '100px' }}>&#x1F61C;{score}%</h1><h2 style={{ color: 'green', textDecorationLine: 'underline',border:'none' }}>
       Congrats! You did it!</h2></div>
   }
 
+}
+
+function Leaderboard({leaderboard}){
+  return (
+    
+	<div class="leaderboard-container">
+  <div class="leaderboard">
+    <div class="head">
+      <i class="fas fa-crown"></i>
+      <h3>Leaderboard</h3>
+    </div>
+    <div class="body">
+      <ol>
+        {leaderboard.map(taker=>(
+          <li key={taker.id}>
+            <mark>{taker.user.username}</mark>
+            <small>{taker.score}%</small>
+          </li>
+        ))}
+        
+        
+      </ol>
+    </div>
+  </div>
+</div>
+
+  )
 }
