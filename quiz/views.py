@@ -211,7 +211,8 @@ class UploadQuiz(generics.GenericAPIView):
 		parsed_pdf = parser.from_file(file_name) 
 		data=re.sub('[^a-zA-Z0-9-_*. ?:()!]', '', parsed_pdf['content'])
 		logger.error(data)
-		quiz = Quiz.objects.create(name=data[slicer(data,"docx"):data.index("1)")]+"- Sample")
+		quiz = Quiz(name=data[slicer(data,"docx"):data.index("1)")]+"- Sample")
+		quiz.save()
 		data=data[data.index("1)"):]
 
 		blocks=re.split(r'[ ](?=[0-9]+\))', data)
@@ -222,7 +223,8 @@ class UploadQuiz(generics.GenericAPIView):
 				elem=elem[:elem.index("ANSWER KEY")]
 			question = elem[:elem.index("A)")]
 			
-			q=Question.objects.create(label=question,quiz=quiz,order=int(question[:question.index(")")]))
+			q=Question(label=question,quiz=quiz,order=int(question[:question.index(")")]))
+			q.save()
 			letters = ["A","B","C","D"]
 			for index,char in enumerate(letters):
 				label=""
@@ -231,7 +233,7 @@ class UploadQuiz(generics.GenericAPIView):
 				else:
 					label=elem[elem.index(char+")"):elem.index(letters[index+1]+")")]
 				Answer.objects.create(question=q,label=label,is_correct=blocks[question_num+i].find(char)>-1)
-
+				
 		return Response(QuizListSerializer(quiz).data)
 def slicer(my_str,sub):
    index=my_str.find(sub)
