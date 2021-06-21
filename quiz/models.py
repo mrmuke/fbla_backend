@@ -34,6 +34,7 @@ class QuizTaker(models.Model):
 	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 	score = models.IntegerField(default=0)
 	completed = models.BooleanField(default=False)
+	state=models.CharField(default="IL",max_length=2)
 	def __str__(self):
 		return self.user.email
 

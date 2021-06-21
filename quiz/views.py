@@ -120,7 +120,6 @@ class QuizDetailAPI(generics.RetrieveAPIView):
 
 		return Response({'quiz': self.get_serializer(quiz, context={'request': self.request}).data, 'last_question_id': last_question})
 
-
 class SaveUsersAnswer(generics.UpdateAPIView):
 	serializer_class = UsersAnswerSerializer
 	permission_classes = [
@@ -158,10 +157,13 @@ class SubmitQuizAPI(generics.GenericAPIView):
 		quiztaker_id = request.data['quiztaker']
 		question_id = request.data['question']
 		answer_id = request.data['answer']
+
+		state=request.data['state']
 		
 		quiztaker = get_object_or_404(QuizTaker, id=quiztaker_id)
 		question = get_object_or_404(Question, id=question_id)
-
+		quiztaker.state=state
+		
 		quiz = Quiz.objects.get(id=self.kwargs['id'])
 
 		if quiztaker.completed:
@@ -286,4 +288,6 @@ class RetakeQuiz(generics.GenericAPIView):
 		taker.save()
 		serializer = self.get_serializer(taker.quiz)
 		return Response({'quiz': serializer.data})
+
+
 

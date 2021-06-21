@@ -13,6 +13,9 @@ export default class QuizService{
       getQuiz(id) {
         return axios.get(`${API_URL}/api/quiz/${id}`);
       }
+      getStateQuiz(id){
+        return axios.get(`${API_URL}/api/quiz/state/${id}`)
+      }
     saveAnswer(response){
         return axios.patch(`${API_URL}/api/quiz/saveAnswer`,response)
     }
